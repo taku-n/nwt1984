@@ -2,7 +2,7 @@
 
 echo "processing html"
 
-for htmlfile in $(find nwt1984html -type f)
+for htmlfile in $(find nwt1984html -type f)  # ディレクトリを除いたリスト
 do
 	output0=$(echo $htmlfile | cut -d "/" -f 2-3 | cut -d "." -f 1)
 	output="nwt1984txt/${output0}.txt"
@@ -19,7 +19,7 @@ echo "mecab is running"
 
 mkdir nwt1984out  # MeCab の出力ファイルを保持
 
-for txtfile in $(find nwt1984txt -type f)
+for txtfile in $(find nwt1984txt -type f)  # ディレクトリを除いたリスト
 do
 	echo "txtfile"
 	echo $txtfile
@@ -38,4 +38,11 @@ do
 done
 
 echo "removing details"
-./rm-details.rb
+
+for mecab_out in $(find nwt1984out -type f)  # ディレクトリを除いたリスト
+do
+	final_output0=$(echo $mecab_out | cut -d "/" -f 2-3 | cut -d "." -f 1)
+	final_output="nwt1984/${final_output0}"
+
+	./rm-details.rb $mecab_out $final_output
+done
