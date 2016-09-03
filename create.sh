@@ -16,7 +16,26 @@ do
 done
 
 echo "mecab is running"
-mecab genesis01.txt -o genesis01.out
+
+mkdir nwt1984out  # MeCab の出力ファイルを保持
+
+for txtfile in $(find nwt1984txt -type f)
+do
+	echo "txtfile"
+	echo $txtfile
+
+	outfile0=$(echo $txtfile | cut -d "/" -f 2-3 | cut -d "." -f 1)
+	outfile="nwt1984out/${outfile0}.out"
+
+	echo "outfile"
+	echo $outfile
+
+	# 書名のディレクトリを作成する
+	dir_name=$(echo $txtfile | cut -d "/" -f 2)
+	mkdir "nwt1984out/${dir_name}"
+
+	mecab $txtfile -o $outfile
+done
 
 echo "removing details"
 ./rm-details.rb
