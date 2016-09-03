@@ -1,7 +1,18 @@
 #!/usr/sbin/ruby
 
-htmlfile = "genesis01.html"
-textfile = "genesis01.txt"
+htmlfile = ARGV[0]
+textfile = ARGV[1]
+
+if !(FileTest.exist?("nwt1984txt")) then
+	Dir.mkdir("nwt1984txt")
+end
+
+%r</(.*)/> =~ htmlfile
+dir_name = $1
+
+if !(FileTest.exist?("nwt1984txt/" + dir_name)) then
+	Dir.mkdir("nwt1984txt/" + dir_name)
+end
 
 html = File.read(htmlfile)
 
